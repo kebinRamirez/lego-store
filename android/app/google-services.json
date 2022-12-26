@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "795499208828",
+    "project_id": "autentication-alternova",
+    "storage_bucket": "autentication-alternova.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795499208828:android:48690240ed6fb5b5fb29f9",
+        "android_client_info": {
+          "package_name": "com.legostore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "795499208828-v7hd6fi6qha6fm8kstlsk2mp3qp3pgg4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzYhjqVZDJjBAThOequCZKRX67_vajjo0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795499208828-v7hd6fi6qha6fm8kstlsk2mp3qp3pgg4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
