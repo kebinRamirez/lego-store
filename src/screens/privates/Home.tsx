@@ -7,6 +7,7 @@ import { logout } from "../auth/auth";
 import { starting } from "./productsSlice";
 import CartOverlay from "./components/CartOverlay";
 import DetailsOverlay from "./components/DetailsOverlay";
+import { allProducts, DetailsProduct } from "../../services/ApiEnpoints";
 
 const Home: React.FC = ({ navigation }: any) => {
     const dispatch = useDispatch()
@@ -14,6 +15,17 @@ const Home: React.FC = ({ navigation }: any) => {
     const products = useSelector(productsList)
     const [overlay, setOverlay] = useState(false)
     const [quantity, setQuantity] = useState(0)
+
+    const handleSelectedItem = (item: any) => {
+        DetailsProduct(item.id).then((response: any) => {
+            if (response != undefined && response != null) {
+                dispatch(detailProductSelect({id: item.id ,object: response.data}))
+            }
+        }).catch((e: any) => {
+            console.log(e)
+        });
+        setOverlay(true)
+    }
 
     useEffect(() => {
         //se valida estado de la sesion del usuario
@@ -30,7 +42,14 @@ const Home: React.FC = ({ navigation }: any) => {
 
     useEffect(() => {
         //se carga la lista de productos
-        dispatch(starting())
+        allProducts().then((response: any) => {
+            if (response != undefined && response != null) {
+                dispatch(starting(response.data["products"]))
+            }
+        }).catch((e: any) => {
+            console.log(e)
+        });
+
     }, [])
 
     return <SafeAreaView style={styles.container}>
@@ -46,8 +65,7 @@ const Home: React.FC = ({ navigation }: any) => {
                     numColumns={2}
                     renderItem={(item) => <TouchableOpacity key={item.index} onPress={() => {
                         //se habilita la seleccion de un card para ver detalles de producto
-                        dispatch(detailProductSelect(item.item.id))
-                        setOverlay(true)
+                        handleSelectedItem(item.item)
                     }} style={styles.cart}>
                         <View style={styles.imageContainer}>
                             <Image source={{ uri: item.item.image }} style={styles.image} />

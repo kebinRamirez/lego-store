@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {allProducts, DetailsProduct, buy} from '../../services/ApiEnpoints';
-import {productsLists, detail, afterShopping} from '../../constants/constans';
 import {Alert} from 'react-native';
 
 export type productOfList = {
@@ -88,56 +87,40 @@ export const productsSlice = createSlice({
         }
       }
     },
-    buyCart: state => {
-      // buy().then(response => {
-      //   if (response.data != 'error') {
-      //     //reasignar stock de productos
-      //     state.productsList = response.data;
-      //   }
-      // });
-
-
-      //se actualiza la lista de productos despues de comprar
-      state.productsList = afterShopping.products
-      //se reinician todas las variables de las que depende del carrito de compras
-      state.shoppingBag= []
-      state.totalToPay=0
-      state.cartActive=false
-      Alert.alert("Carrito de compras comprado de manera correcta")
+    buyCart: (state, action: {payload: any}) => {
+      //actualizando variables dependientes del carrito de compras
+      state.productsList = action.payload;
+      state.shoppingBag = [];
+      state.totalToPay = 0;
+      state.cartActive = false;
+      Alert.alert('Carrito de compras comprado de manera correcta');
     },
     cartChangeStateofActivation: (state, action: {payload: boolean}) => {
       //se activa o desactiva el carrito de compras
       state.cartActive = action.payload;
     },
-    detailProductSelect: (state, action: {payload: string}) => {
-      //llamando al endpoint para traer los datos del producto seleccionado
-      // DetailsProduct(action.payload).then(response => {
-      //   //asignar aqui detalles a el estado del producto
-      //   if (response.data != 'error') {
-      //     // state.porductDetails = response.data;
-      //   }
-      // });
-      //temporal
-
-      //se obtiene los detalles del producto seleccionado
-      state.porductDetails = detail;
+    detailProductSelect: (
+      state,
+      action: {payload: {id: number; object: any}},
+    ) => {
+      // llamando al endpoint para traer los datos del producto seleccionado
+      const productD = {
+        id: action.payload.id,
+        unit_price: action.payload.object.unit_price,
+        description: action.payload.object.description,
+        stock: action.payload.object.stock,
+        name: action.payload.object.name,
+        image: action.payload.object.image,
+      };
+      state.porductDetails = productD;
     },
     unSelectDetail: state => {
-
       //se borran cuando el producto es deseleccionado
       state.porductDetails = null;
     },
-    starting: state => {
-      //llamando al endpoint para traer la lista de todos los productos
-      // allProducts().then(response => {
-      //   if(response.data!="error"){
-      //     // state.productsList = response.data;
-      //   }
-      // });
-      //temporal
-
-      //se inicia cargando la lista de productos cuando la app llega al home
-      state.productsList = productsLists.products;
+    starting: (state, action: {payload: any}) => {
+      //actualizando el estado de la lista de productos
+      state.productsList = action.payload;
     },
   },
 });
@@ -149,7 +132,7 @@ export const {
   unSelectDetail,
   starting,
   cartChangeStateofActivation,
-  buyCart
+  buyCart,
 } = productsSlice.actions;
 
 //se exportan los estados del reducer
