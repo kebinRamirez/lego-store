@@ -1,50 +1,42 @@
 import axios from 'axios';
-const baseUrl = 'https://525aa86b-e6ee-4e67-bbdf-f4d543d5701a.mock.pstmn.io/';
+const baseUrl = 'https://489a19f7-f7d2-426a-8361-230148034a79.mock.pstmn.io/';
+
 
 export const allProducts = async () => {
-    try {
-        const response = axios({
-            method: 'get',
-            url: `${baseUrl}all-products`,
+
+    try{
+        const response =  await axios.get(`${baseUrl}all-products`, {
         })
-
-        console.log(response)
-
         return response
-    } catch (e) {
+    }catch(e){
         console.log(e)
     }
-    return {data: "error"}
+    return []
+   
 }
 
 export const DetailsProduct = async (id: string) => {
+
     try{
-        const response = axios({
-            method: 'get',
-            url: `${baseUrl}detail/${id}`,
+        const response =  await axios.get(`${baseUrl}detail/${id}`, {
         })
-    
-        console.log(response)
-    
         return response
     }catch(e){
         console.log(e)
     }
-    return {data:"error"}
+    return {}
+   
 }
 
-export const buy = async () =>{
+export const buy = async () => {
+
     try{
-        const response = axios({
-            method: 'post',
-            url: `${baseUrl}buy`,
+        const response =  await axios.post(`${baseUrl}buy`, {
         })
-    
-        console.log(response)
-    
         return response
     }catch(e){
         console.log(e)
     }
-    return {data:"error"}
+    return []
+   
 }

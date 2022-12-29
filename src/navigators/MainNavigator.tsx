@@ -53,8 +53,6 @@ const AppNavigator: React.FC = () => {
             // setting data in the states
 
             t.then(result => {
-                console.log("este es result")
-                console.log(result)
                 if(result!=null){
                     dispatch(login(result))
                 }

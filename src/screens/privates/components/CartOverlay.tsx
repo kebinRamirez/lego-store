@@ -3,6 +3,7 @@ import { Overlay } from "react-native-elements";
 import { View, Text, Image, TouchableOpacity, Dimensions, StyleSheet, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
 import { cartChangeStateofActivation, buyCart } from "../productsSlice";
+import { buy } from "../../../services/ApiEnpoints";
 
 interface props {
     products: any
@@ -14,6 +15,16 @@ const CartOverlay: React.FC<props> = ({ products }) => {
     const toggleOverlayCart = () => {
         //manejo del estado de apertura del carrito de compras
         dispatch(cartChangeStateofActivation(!products.products.cartActive))
+    }
+
+    const handleBuy = ()=>{
+        buy().then((response: any) => {
+            if (response != undefined && response != null) {
+                dispatch(buyCart(response.data["products"]))
+            }
+        }).catch((e: any) => {
+            console.log(e)
+        });
     }
 
     return (
@@ -90,7 +101,7 @@ const CartOverlay: React.FC<props> = ({ products }) => {
                             <View style={styles.flex1}>
                                 <TouchableOpacity onPress={() => {
                                     //accion para realizar la compra de lo que se encuentra dentro del carrito de compras
-                                    dispatch(buyCart())
+                                   handleBuy()
                                 }} style={styles.payButton}>
                                     <Text style={styles.payText}>
                                         {'Comprar'}
